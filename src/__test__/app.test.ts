@@ -1,7 +1,5 @@
 describe("before activate custom log", () => {
-  it("console.log()", () => {
-    console.log("hello World");
-  });
+	it("console.log()", () => {});
 });
 
 describe("initialize  custom log", () => {});
