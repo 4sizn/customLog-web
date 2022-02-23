@@ -8,4 +8,30 @@ let cssText = {
 	sample4: "font-size: 4px; color:red",
 };
 
-export { cssText };
+const customLogOption: RootOption = {
+	prefix: "root",
+	style: cssText["sample1"],
+	timestamp: true,
+	hello: {
+		prefix: "hello",
+		style: cssText["sample2"],
+	},
+	bye: {
+		prefix: "bye",
+		style: cssText["sample3"],
+	},
+	log: {
+		prefix: "log",
+		style: cssText["sample1"],
+	},
+	info: {
+		prefix: "info",
+		style: cssText["sample1"],
+	},
+	error: {
+		prefix: "error",
+		style: cssText["sample4"],
+	},
+};
+
+export { cssText, customLogOption };

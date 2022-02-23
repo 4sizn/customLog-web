@@ -1,7 +1,5 @@
-import _ from "lodash";
-import { cssText } from "./sample";
-
 export const customLog = {
+	run: false,
 	monkeyConsole: {} as Console,
 	options: {
 		timestamp: false,
@@ -42,6 +40,14 @@ export const customLog = {
 		};
 		customLog.options = options;
 
+		for (let key of Object.keys(customLog.monkeyConsole)) {
+			if (isConsoleProperty(key)) {
+				window.console[key] = customLog.message(
+					customLog.monkeyConsole[key]
+				)(options[key]!);
+			}
+		}
+
 		for (let key of Object.keys(options)) {
 			if (isConsoleProperty(key)) {
 				window.console[key] = customLog.message(
@@ -49,6 +55,8 @@ export const customLog = {
 				)(options[key]!);
 			}
 		}
+
+		customLog.run = true;
 
 		if (options?.hello) {
 			customLog.message(customLog.monkeyConsole.log)(options.hello)();
@@ -60,6 +68,9 @@ export const customLog = {
 	},
 
 	end: () => {
+		if (!customLog.run) {
+			throw Error("run int() first...");
+		}
 		if (customLog.options?.bye) {
 			customLog.message(customLog.monkeyConsole.log)(
 				customLog.options?.bye
@@ -68,40 +79,3 @@ export const customLog = {
 		window.console = customLog.monkeyConsole;
 	},
 };
-
-const customLogOption: RootOption = {
-	prefix: "root",
-	style: cssText["sample1"],
-	timestamp: true,
-	hello: {
-		prefix: "hello",
-		style: cssText["sample2"],
-	},
-	bye: {
-		prefix: "bye",
-		style: cssText["sample3"],
-	},
-	log: {
-		prefix: "log",
-		style: cssText["sample1"],
-	},
-	info: {
-		prefix: "info",
-		style: cssText["sample1"],
-	},
-	error: {
-		prefix: "error",
-		style: cssText["sample4"],
-	},
-};
-console.log("custom Log 동작 전");
-customLog.init(customLogOption);
-console.log("custom Log 동작 후");
-console.log("안녕하세요", { a: "asdf" });
-console.log("로그입니다");
-console.warn("wran입니다");
-console.info("info입니다");
-console.error("error입니다");
-customLog.end();
-console.warn("wran입니다");
-console.info("info입니다");
