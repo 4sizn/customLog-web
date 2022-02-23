@@ -30,7 +30,7 @@ export const customLog = {
 		};
 
 		function setTimeStamp() {
-			return new Date().toLocaleString();
+			return `[${new Date().toLocaleString()}] `;
 		}
 
 		function setPrefixLog(prefix: string) {
@@ -53,7 +53,9 @@ export const customLog = {
 			}
 		}
 
-		customLog.message(customLog.monkeyConsole.log)(options?.hello)();
+		if (options?.hello) {
+			customLog.message(customLog.monkeyConsole.log)(options.hello)();
+		}
 
 		function isMonkeyConsoleKey(key: string): key is keyof Console {
 			return customLog.monkeyConsole.hasOwnProperty(`${key}`);
@@ -61,9 +63,11 @@ export const customLog = {
 	},
 
 	end: () => {
-		customLog.message(customLog.monkeyConsole.log)(
-			customLog.options?.bye
-		)();
+		if (customLog.options?.bye) {
+			customLog.message(customLog.monkeyConsole.log)(
+				customLog.options?.bye
+			)();
+		}
 		window.console = customLog.monkeyConsole;
 	},
 };
@@ -71,6 +75,7 @@ export const customLog = {
 const customLogOption: RootOption = {
 	prefix: "RootPrefix",
 	style: cssText["sample1"],
+	timestamp: true,
 	hello: {
 		prefix: "[prefix-hello]",
 		style: cssText["sample2"],
@@ -90,6 +95,7 @@ const customLogOption: RootOption = {
 };
 console.log("custom Log 동작 전");
 customLog.init(customLogOption);
+console.log("custom Log 동작 후");
 console.log("안녕하세요", { a: "asdf" });
 setTimeout(() => {
 	console.log("delay 3초");
