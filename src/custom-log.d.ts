@@ -1,13 +1,13 @@
 type StartEndOption = {
-	hello: Option;
-	bye: Option;
+	hello?: Option;
+	bye?: Option;
 };
 
 type RootOption = StartEndOption & {
 	time: boolean;
 } & Option &
-	Record<keyof Console, Option>;
+	Partial<Record<keyof Console, Option>>;
 type Option = {
 	prefix?: string;
-	style: string;
+	style?: string;
 };

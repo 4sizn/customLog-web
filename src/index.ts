@@ -5,21 +5,31 @@ export const customLog = {
 	monkeyConsole: {
 		...console,
 	},
-	options: {} as RootOption,
+	options: {
+		time: false,
+	} as RootOption,
 	message: function (fn: Function) {
 		return function (opts: Option) {
 			return function () {
 				fn.apply(
 					console,
 					[
-						`${setDateLog()} ${setPrefixLog(opts.prefix)}%c %s`,
+						`${customLog.options?.time ? setTime() : ""}${
+							customLog.options?.prefix
+								? setPrefixLog(String(customLog.options.prefix))
+								: ""
+						}${
+							opts?.prefix
+								? setPrefixLog(String(opts.prefix))
+								: ""
+						}%c%s`,
 						opts?.style,
 					].concat(...arguments)
 				);
 			};
 		};
 
-		function setDateLog() {
+		function setTime() {
 			return new Date().toLocaleString();
 		}
 
@@ -28,7 +38,7 @@ export const customLog = {
 		}
 	},
 
-	init: (options?: RootOption) => {
+	init: (options: RootOption = { time: false } as RootOption) => {
 		customLog.options = options;
 		window.console = {
 			...window.console,
@@ -52,7 +62,7 @@ export const customLog = {
 	},
 };
 const customLogOption: RootOption = {
-	prefix: "희석",
+	prefix: "RootPrefix",
 	style: cssText["sample1"],
 	hello: {
 		prefix: "[prefix-hello]",
@@ -72,11 +82,12 @@ const customLogOption: RootOption = {
 	},
 };
 console.log("custom Log 동작 전");
-customLog.init(customLogOption);
+customLog.init();
 console.log("안녕하세요", { a: "asdf" });
 setTimeout(() => {
 	console.log("delay 3초");
 }, 3000);
+
 console.log("로그입니다");
 console.warn("wran입니다");
 console.info("info입니다");
