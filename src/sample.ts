@@ -5,6 +5,7 @@ let cssText = {
 		"font-size: 1px; padding: 125px 125px; background-size: 250px 250px; background: no-repeat url(https://i2.wp.com/i.giphy.com/media/12BYUePgtn7sis/giphy-downsized.gif?w=770&amp;ssl=1);",
 	sample3:
 		"font-size: 1px; padding: 125px 125px; background-size: 250px 250px; background: no-repeat url(https://media.giphy.com/media/f31DK1KpGsyMU/giphy.gif);",
+	sample4: "font-size: 4px; color:red",
 };
 
 export { cssText };
