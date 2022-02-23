@@ -34,24 +34,35 @@ export const customLog = {
 		}
 
 		function setPrefixLog(prefix: string) {
-			return prefix;
+			return `[${prefix}]`;
 		}
 	},
 
 	init: (options: RootOption = { timestamp: false } as RootOption) => {
 		customLog.options = options;
 
-		for (let key of Object.keys(options)) {
-			if (isMonkeyConsoleKey(key)) {
-				Object.defineProperty(
-					window.console,
-					key,
-					customLog.message(customLog.monkeyConsole[key])(
-						options[key]
-					)
-				);
-			}
-		}
+		window.console = {
+			...window.console,
+			log: customLog.message(customLog.monkeyConsole.log)(options?.log),
+			info: customLog.message(customLog.monkeyConsole.info)(
+				options?.info
+			),
+			warn: customLog.message(customLog.monkeyConsole.warn)(
+				options?.warn || {}
+			),
+		};
+
+		// for (let key of Object.keys(options)) {
+		// 	if (isMonkeyConsoleKey(key)) {
+		// 		Object.defineProperty(
+		// 			window.console,
+		// 			key,
+		// 			customLog.message(customLog.monkeyConsole[key])(
+		// 				options[key]!
+		// 			)
+		// 		);
+		// 	}
+		// }
 
 		if (options?.hello) {
 			customLog.message(customLog.monkeyConsole.log)(options.hello)();
@@ -73,23 +84,23 @@ export const customLog = {
 };
 
 const customLogOption: RootOption = {
-	prefix: "RootPrefix",
+	prefix: "root",
 	style: cssText["sample1"],
 	timestamp: true,
 	hello: {
-		prefix: "[prefix-hello]",
+		prefix: "hello",
 		style: cssText["sample2"],
 	},
 	bye: {
-		prefix: "[prefix-bye]",
-		style: cssText["sample1"],
+		prefix: "bye",
+		style: cssText["sample3"],
 	},
 	log: {
-		prefix: "[prefix-log]",
-		style: cssText["sample2"],
+		prefix: "log",
+		style: cssText["sample1"],
 	},
 	info: {
-		prefix: "[prefix-info]",
+		prefix: "info",
 		style: cssText["sample1"],
 	},
 };
