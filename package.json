@@ -1,7 +1,15 @@
 {
 	"name": "customlog-web",
 	"private": true,
-	"version": "0.0.2",
+	"version": "0.0.3",
+	"main": "./dist/custom-log.umd.js",
+	"module": "./dist/custom-log.es.js",
+	"exports": {
+		".": {
+			"import": "./dist/custom-log.es.js",
+			"require": "./dist/custom-log.umd.js"
+		}
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
