@@ -19,3 +19,16 @@ describe("after custom log", () => {
 
 	expect(consoleSpy).toHaveBeenCalledWith("hello");
 });
+
+describe("end custom log", () => {
+	customLog.init();
+});
+
+describe("restore console.log()", () => {
+	it(`console.log the text "hello"`, () => {
+		const consoleSpy = jest.spyOn(console, "log");
+		console.log("hello");
+
+		expect(consoleSpy).toHaveBeenCalledWith("hello");
+	});
+});

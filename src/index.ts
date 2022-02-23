@@ -23,7 +23,7 @@ export const customLog = {
 			return new Date().toLocaleString();
 		}
 
-		function setPrefixLog(prefix) {
+		function setPrefixLog(prefix: string) {
 			return prefix;
 		}
 	},
@@ -51,10 +51,7 @@ export const customLog = {
 		window.console = customLog.monkeyConsole;
 	},
 };
-
-console.log("custom Log 동작 전");
-
-customLog.init({
+const customLogOption: RootOption = {
 	prefix: "희석",
 	style: cssText["sample1"],
 	hello: {
@@ -73,13 +70,13 @@ customLog.init({
 		prefix: "[prefix-info]",
 		style: cssText["sample1"],
 	},
-});
-
+};
+console.log("custom Log 동작 전");
+customLog.init(customLogOption);
 console.log("안녕하세요", { a: "asdf" });
 setTimeout(() => {
 	console.log("delay 3초");
 }, 3000);
-
 console.log("로그입니다");
 console.warn("wran입니다");
 console.info("info입니다");
