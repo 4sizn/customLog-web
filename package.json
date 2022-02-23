@@ -1,22 +1,23 @@
 {
-  "name": "customlog-web",
-  "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "jest src"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.178",
-    "typescript": "^4.5.4",
-    "vite": "^2.8.0"
-  },
-  "dependencies": {
-    "@types/jest": "^27.4.0",
-    "jest": "^27.5.1",
-    "lodash": "^4.17.21",
-    "ts-jest": "^27.1.3"
-  }
+	"name": "customlog-web",
+	"private": true,
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"test": "jest src"
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.178",
+		"ts-node": "^10.5.0",
+		"typescript": "^4.5.4",
+		"vite": "^2.8.0"
+	},
+	"dependencies": {
+		"@types/jest": "^27.4.0",
+		"jest": "^27.5.1",
+		"lodash": "^4.17.21",
+		"ts-jest": "^27.1.3"
+	}
 }

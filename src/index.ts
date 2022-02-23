@@ -1,26 +1,12 @@
 import _ from "lodash";
 import { cssText } from "./sample";
 
-type StartEndOption = {
-	hello: Option;
-	bye: Option;
-};
-
-type RootOption = StartEndOption & {
-	time: boolean;
-} & Option &
-	Record<keyof Console, Option>;
-type Option = {
-	prefix?: string;
-	style: string;
-};
-
-const customLog = {
+export const customLog = {
 	monkeyConsole: {
 		...console,
 	},
 	options: {} as RootOption,
-	message: function (fn) {
+	message: function (fn: Function) {
 		return function (opts: Option) {
 			return function () {
 				fn.apply(
