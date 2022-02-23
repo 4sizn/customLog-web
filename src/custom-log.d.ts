@@ -4,7 +4,7 @@ type StartEndOption = {
 };
 
 type RootOption = StartEndOption & {
-	time: boolean;
+	timestamp: boolean;
 } & Option &
 	Partial<Record<keyof Console, Option>>;
 type Option = {

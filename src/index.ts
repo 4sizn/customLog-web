@@ -6,7 +6,7 @@ export const customLog = {
 		...console,
 	},
 	options: {
-		time: false,
+		timestamp: false,
 	} as RootOption,
 	message: function (fn: Function) {
 		return function (opts: Option) {
@@ -14,7 +14,7 @@ export const customLog = {
 				fn.apply(
 					console,
 					[
-						`${customLog.options?.time ? setTime() : ""}${
+						`${customLog.options?.timestamp ? setTimeStamp() : ""}${
 							customLog.options?.prefix
 								? setPrefixLog(String(customLog.options.prefix))
 								: ""
@@ -29,7 +29,7 @@ export const customLog = {
 			};
 		};
 
-		function setTime() {
+		function setTimeStamp() {
 			return new Date().toLocaleString();
 		}
 
@@ -38,20 +38,26 @@ export const customLog = {
 		}
 	},
 
-	init: (options: RootOption = { time: false } as RootOption) => {
+	init: (options: RootOption = { timestamp: false } as RootOption) => {
 		customLog.options = options;
-		window.console = {
-			...window.console,
-			log: customLog.message(customLog.monkeyConsole.log)(options?.log),
-			info: customLog.message(customLog.monkeyConsole.info)(
-				options?.info
-			),
-			warn: customLog.message(customLog.monkeyConsole.warn)(
-				options?.warn || {}
-			),
-		};
+
+		for (let key of Object.keys(options)) {
+			if (isMonkeyConsoleKey(key)) {
+				Object.defineProperty(
+					window.console,
+					key,
+					customLog.message(customLog.monkeyConsole[key])(
+						options[key]
+					)
+				);
+			}
+		}
 
 		customLog.message(customLog.monkeyConsole.log)(options?.hello)();
+
+		function isMonkeyConsoleKey(key: string): key is keyof Console {
+			return customLog.monkeyConsole.hasOwnProperty(`${key}`);
+		}
 	},
 
 	end: () => {
@@ -61,6 +67,7 @@ export const customLog = {
 		window.console = customLog.monkeyConsole;
 	},
 };
+
 const customLogOption: RootOption = {
 	prefix: "RootPrefix",
 	style: cssText["sample1"],
@@ -82,7 +89,7 @@ const customLogOption: RootOption = {
 	},
 };
 console.log("custom Log 동작 전");
-customLog.init();
+customLog.init(customLogOption);
 console.log("안녕하세요", { a: "asdf" });
 setTimeout(() => {
 	console.log("delay 3초");
