@@ -2,9 +2,7 @@ import _ from "lodash";
 import { cssText } from "./sample";
 
 export const customLog = {
-	monkeyConsole: {
-		...console,
-	},
+	monkeyConsole: {} as Console,
 	options: {
 		timestamp: false,
 	} as RootOption,
@@ -22,7 +20,7 @@ export const customLog = {
 							opts?.prefix
 								? setPrefixLog(String(opts.prefix))
 								: ""
-						}%c%s`,
+						}${arguments.length > 0 ? "%c%s" : "%c "}`,
 						opts?.style,
 					].concat(...arguments)
 				);
@@ -39,36 +37,24 @@ export const customLog = {
 	},
 
 	init: (options: RootOption = { timestamp: false } as RootOption) => {
+		customLog.monkeyConsole = {
+			...console,
+		};
 		customLog.options = options;
 
-		window.console = {
-			...window.console,
-			log: customLog.message(customLog.monkeyConsole.log)(options?.log),
-			info: customLog.message(customLog.monkeyConsole.info)(
-				options?.info
-			),
-			warn: customLog.message(customLog.monkeyConsole.warn)(
-				options?.warn || {}
-			),
-		};
-
-		// for (let key of Object.keys(options)) {
-		// 	if (isMonkeyConsoleKey(key)) {
-		// 		Object.defineProperty(
-		// 			window.console,
-		// 			key,
-		// 			customLog.message(customLog.monkeyConsole[key])(
-		// 				options[key]!
-		// 			)
-		// 		);
-		// 	}
-		// }
+		for (let key of Object.keys(options)) {
+			if (isConsoleProperty(key)) {
+				window.console[key] = customLog.message(
+					customLog.monkeyConsole[key]
+				)(options[key]!);
+			}
+		}
 
 		if (options?.hello) {
 			customLog.message(customLog.monkeyConsole.log)(options.hello)();
 		}
 
-		function isMonkeyConsoleKey(key: string): key is keyof Console {
+		function isConsoleProperty(key: string): key is keyof Console {
 			return customLog.monkeyConsole.hasOwnProperty(`${key}`);
 		}
 	},
