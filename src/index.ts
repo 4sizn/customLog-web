@@ -1,3 +1,5 @@
+import { Option, RootOption } from "./types";
+
 export const customLog = {
 	run: false,
 	monkeyConsole: {} as Console,
