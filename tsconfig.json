@@ -13,7 +13,10 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
+		"declaration": true,
+		"outDir": "dist",
 		"types": ["@types/jest"]
 	},
-	"include": ["src"]
+	"include": ["src"],
+	"exclude": ["node_modules", "src/__test__", "src/sample.ts", "src/app.ts"]
 }
