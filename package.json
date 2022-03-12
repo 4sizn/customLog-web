@@ -1,7 +1,7 @@
 {
 	"name": "@4sizn/customlog-web",
 	"private": false,
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"main": "./dist/custom-log.umd.js",
 	"module": "./dist/custom-log.es.js",
 	"exports": {
