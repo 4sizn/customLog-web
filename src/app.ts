@@ -1,5 +1,5 @@
 import { customLog } from "./index";
-import { cssText, customLogOption } from "./sample";
+import { cssText } from "./sample";
 
 console.log("custom Log 동작 전");
 // customLog.init();
