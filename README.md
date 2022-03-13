@@ -1,6 +1,12 @@
 # customLog-web
 https://www.npmjs.com/package/@4sizn/customlog-web
 
+# PREVIEW
+![sample1](https://user-images.githubusercontent.com/8405698/158042894-ab31f66f-06ad-4a36-8788-4ba07f34e031.gif)
+
+
+
+
 
 ### TODO
 1. https://github.com/xcv58/Custom-JavaScript-for-Websites-2
