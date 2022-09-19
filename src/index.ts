@@ -9,7 +9,6 @@ export const customLog = {
 	message: function (fn: Function) {
 		let que: string[] = [];
 		let styleQue: string[] = [];
-
 		customLog.options?.timestamp && que.push(setTimeStamp());
 		customLog.options?.prefix &&
 			que.push(
@@ -19,7 +18,6 @@ export const customLog = {
 					customLog.options.style
 				)
 			);
-
 		return function (opts: Option) {
 			opts?.prefix &&
 				que.push(
@@ -29,15 +27,10 @@ export const customLog = {
 						opts.style
 					)
 				);
-
 			return function () {
 				fn.apply(
 					console,
-					[
-						`${que.join(" ")}` +
-							`${arguments.length > 0 ? "%c%s" : "%c "}`,
-						opts?.style,
-					].concat(...arguments)
+					[`${que.join("")}`, ...styleQue].concat(...arguments)
 				);
 			};
 		};
@@ -53,7 +46,7 @@ export const customLog = {
 		) {
 			if (style) {
 				cb(style);
-				return `[${prefix}]`;
+				return `%c${prefix}`;
 			} else {
 				return `[${prefix}]`;
 			}
