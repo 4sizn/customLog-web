@@ -21,20 +21,27 @@ const customLog = {
     timestamp: false
   },
   message: function(fn) {
+    var _a, _b;
+    let que = [];
+    let styleQue = [];
+    ((_a = customLog.options) == null ? void 0 : _a.timestamp) && que.push(setTimeStamp());
+    ((_b = customLog.options) == null ? void 0 : _b.prefix) && que.push(setPrefixLog(String(customLog.options.prefix), (style) => styleQue.push(style), customLog.options.style));
     return function(opts) {
+      (opts == null ? void 0 : opts.prefix) && que.push(setPrefixLog(String(opts.prefix), (style) => styleQue.push(style), opts.style));
       return function() {
-        var _a, _b;
-        fn.apply(console, [
-          `${((_a = customLog.options) == null ? void 0 : _a.timestamp) ? setTimeStamp() : ""}${((_b = customLog.options) == null ? void 0 : _b.prefix) ? setPrefixLog(String(customLog.options.prefix)) : ""}${(opts == null ? void 0 : opts.prefix) ? setPrefixLog(String(opts.prefix)) : ""}${arguments.length > 0 ? "%c%s" : "%c "}`,
-          opts == null ? void 0 : opts.style
-        ].concat(...arguments));
+        fn.apply(console, [`${que.join("")}`, ...styleQue].concat(...arguments));
       };
     };
     function setTimeStamp() {
       return `[${new Date().toLocaleString()}] `;
     }
-    function setPrefixLog(prefix) {
-      return `[${prefix}]`;
+    function setPrefixLog(prefix, cb, style) {
+      if (style) {
+        cb(style);
+        return `%c${prefix}`;
+      } else {
+        return `[${prefix}]`;
+      }
     }
   },
   init: (options = { timestamp: false }) => {

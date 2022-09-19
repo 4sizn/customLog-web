@@ -7,6 +7,6 @@ export declare type Option = {
     style?: string;
 };
 export declare type RootOption = StartEndOption & {
-    timestamp: boolean;
+    timestamp?: boolean;
 } & Option & Partial<Record<keyof Console, Option>>;
 export {};
