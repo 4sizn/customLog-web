@@ -7,22 +7,30 @@ export const customLog = {
 		timestamp: false,
 	} as RootOption,
 	message: function (fn: Function) {
+		let que: string[] = [];
+		let styleQue: string[] = [];
+		customLog.options?.timestamp && que.push(setTimeStamp());
+		customLog.options?.prefix &&
+			que.push(
+				setPrefixLog(
+					String(customLog.options.prefix),
+					(style) => styleQue.push(style),
+					customLog.options.style
+				)
+			);
 		return function (opts: Option) {
+			opts?.prefix &&
+				que.push(
+					setPrefixLog(
+						String(opts.prefix),
+						(style) => styleQue.push(style),
+						opts.style
+					)
+				);
 			return function () {
 				fn.apply(
 					console,
-					[
-						`${customLog.options?.timestamp ? setTimeStamp() : ""}${
-							customLog.options?.prefix
-								? setPrefixLog(String(customLog.options.prefix))
-								: ""
-						}${
-							opts?.prefix
-								? setPrefixLog(String(opts.prefix))
-								: ""
-						}${arguments.length > 0 ? "%c%s" : "%c "}`,
-						opts?.style,
-					].concat(...arguments)
+					[`${que.join("")}`, ...styleQue].concat(...arguments)
 				);
 			};
 		};
@@ -31,8 +39,17 @@ export const customLog = {
 			return `[${new Date().toLocaleString()}] `;
 		}
 
-		function setPrefixLog(prefix: string) {
-			return `[${prefix}]`;
+		function setPrefixLog(
+			prefix: string,
+			cb: (style: string) => {},
+			style?: string
+		) {
+			if (style) {
+				cb(style);
+				return `%c${prefix}`;
+			} else {
+				return `[${prefix}]`;
+			}
 		}
 	},
 

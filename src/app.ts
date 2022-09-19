@@ -8,17 +8,17 @@ customLog.init({
 	style: cssText["sample6"],
 	timestamp: true,
 	hello: {
-		style: cssText.sample6,
+		style: cssText.sample7,
 		prefix: "hello",
 	},
 
 	log: {
-		style: cssText.sample6,
-		prefix: "hello",
+		style: cssText.sample8,
+		prefix: "log",
 	},
 
 	error: {
-		style: cssText.sample4,
+		style: cssText.sample8,
 		prefix: "error입니다",
 	},
 });
@@ -26,9 +26,8 @@ customLog.init({
 // customLog.init(customLogOption);
 
 // console.log("custom Log 동작 후");
-console.log("안녕하세요", { a: "asdf" });
-// console.log(JSON.stringify({ a: "asdf" }));
-console.log("로그입니다", "asdf");
+console.log("로그0", { a: "asdf" });
+console.log("로그입니다1", "asdf");
 console.warn("wran입니다");
 console.info("info입니다");
 console.error("error입니다");
