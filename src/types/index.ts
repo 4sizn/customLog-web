@@ -9,6 +9,6 @@ export type Option = {
 };
 
 export type RootOption = StartEndOption & {
-	timestamp: boolean;
+	timestamp?: boolean;
 } & Option &
 	Partial<Record<keyof Console, Option>>;
